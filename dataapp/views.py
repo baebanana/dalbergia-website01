@@ -28,12 +28,12 @@ def admin_required(view_func):
         return view_func(request, *args, **kwargs)
     return _wrapped_view
 def index(request):
-    return render(request,"dataapp\homepage.html")
+    return render(request,"dataapp/homepage.html")
 
 def home(request):
     knowledge_info = KnowledgeInfo.objects.all().order_by("info_creator")
 
-    return render(request,"dataapp\homepage.html",
+    return render(request,"dataapp/homepage.html",
         {
             "knowledge": knowledge_info
         }
@@ -41,19 +41,19 @@ def home(request):
 
 #@admin_required
 def managedata(request):
-    return render(request,"dataapp\manage_data.html")
+    return render(request,"dataapp/manage_data.html")
 
 def managegenus(request):
     gn =Genus.objects.all()
-    return render(request,"dataapp\manage_genus.html",{"genus":gn})
+    return render(request,"dataapp/manage_genus.html",{"genus":gn})
 
 def managespeci(request):
     sp =Species.objects.all()
-    return render(request,"dataapp\manage_species.html",{"spi":sp})
+    return render(request,"dataapp/manage_species.html",{"spi":sp})
 
 def manageinfo(request):
     kn =KnowledgeInfo.objects.all()
-    return render(request,"dataapp\manage_info.html",{"kno":kn})
+    return render(request,"dataapp/manage_info.html",{"kno":kn})
     #return render(request,"dataapp\manage_info.html")
 
 def addgenus(request):
@@ -71,7 +71,7 @@ def addgenus(request):
         # เปลี่ยนเส้นทาง
         return redirect("genusdata")
     else :
-        return render(request,"dataapp\genus_add.html")
+        return render(request,"dataapp/genus_add.html")
     
 def genusdelete(request,genu_id):
     gn = Genus.objects.get(genus_id=genu_id)
@@ -89,7 +89,7 @@ def genusupdate(request,gn_id):
         return redirect("genusdata")
     else:
         gn = Genus.objects.get(genus_id=gn_id)
-        return render(request, "dataapp\genus_update.html",{"gen":gn})
+        return render(request, "dataapp/genus_update.html",{"gen":gn})
     
 def genussearch(request):
         q = request.GET.get("name", "")
@@ -123,7 +123,7 @@ def addspecies(request):
         # เปลี่ยนเส้นทาง
         return redirect("specidata")
     else :
-        return render(request,"dataapp\species_add.html",{"genus":gn})
+        return render(request,"dataapp/species_add.html",{"genus":gn})
     
 def deletespecies(request,spec_id):
     sp = Species.objects.get(species_id=spec_id)
@@ -146,7 +146,7 @@ def updatespecies(request,spec_id):
     else:
         speci = Species.objects.get(species_id=spec_id)
         genus=Genus.objects.all()
-        return render(request, "dataapp\species_update.html",{"sp":speci, "gn":genus})
+        return render(request, "dataapp/species_update.html",{"sp":speci, "gn":genus})
 
 def searchspecies(request):
     query = request.GET.get("message", "")
@@ -283,10 +283,10 @@ def downloadselectedimages(request):
         return response
 
 def plantclassify(request):
-    return render(request,"dataapp\classify_page.html")
+    return render(request,"dataapp/classify_page.html")
 
 def addinfo(request):
-    return render(request,"dataapp\info_add.html")
+    return render(request,"dataapp/info_add.html")
 
 def addinfomation(request):
     if request.method == "POST":
@@ -309,7 +309,7 @@ def addinfomation(request):
         # เปลี่ยนเส้นทาง
         return redirect("infodata")
     else :
-        return render(request,"dataapp\info_add.html")
+        return render(request,"dataapp/info_add.html")
     
 def deleteinfomation(request,k_id):
     knl = KnowledgeInfo.objects.get(info_id=k_id)
@@ -330,7 +330,7 @@ def updateinfomation(request,k_id):
         return redirect("infodata")
     else:
         knl = KnowledgeInfo.objects.get(info_id=k_id)
-        return render(request, "dataapp\info_update.html",{"kn":knl})
+        return render(request, "dataapp/info_update.html",{"kn":knl})
 
 def infosearch(request):
         q = request.GET.get("name", "")
