@@ -1,11 +1,10 @@
-/* ===============================
-   Reset & Base
-================================= */
+/* ไฟล์: static/dataapp/css/managedata.css */
 
+/* --- 1. Reset & Base Styles --- */
 :root {
-  --primary: #2E7D32;
+  --primary: #2E7D32;       /* เขียวเข้ม */
   --primary-hover: #1B5E20;
-  --accent: #E8F5E9;
+  --accent: #E8F5E9;        /* เขียวอ่อนพื้นหลัง */
   --text-dark: #333;
   --text-light: #666;
   --white: #ffffff;
@@ -25,6 +24,8 @@ body {
   background-color: #f0f2f5;
   color: var(--text-dark);
   min-height: 100vh;
+  display: flex;
+  flex-direction: column;
 }
 
 a { 
@@ -37,10 +38,7 @@ ul {
   list-style: none; 
 }
 
-/* ===============================
-   Navbar
-================================= */
-
+/* --- 2. Navbar --- */
 .site-header {
   background: var(--white);
   box-shadow: 0 2px 10px rgba(0,0,0,0.05);
@@ -58,6 +56,13 @@ ul {
   align-items: center;
 }
 
+.logo {
+    font-size: 1.5rem;
+    font-weight: 700;
+    color: var(--primary-color);
+}
+.logo span { color: var(--secondary-color); }
+
 .brand {
   font-size: 1.5rem;
   font-weight: 700;
@@ -72,29 +77,33 @@ ul {
   gap: 20px;
 }
 
-.btn-logout {
-  color: #d32f2f;
-  font-weight: bold;
+.nav-links a {
+  font-weight: 600;
+  color: var(--text-dark);
   padding: 8px 16px;
   border-radius: 20px;
 }
 
-.btn-logout:hover {
-  background-color: #ffebee;
+.nav-links a:hover {
+  background-color: var(--accent);
+  color: var(--primary);
 }
 
-/* ===============================
-   Hero Section
-================================= */
+.btn-logout {
+  color: #d32f2f !important; /* สีแดง */
+  font-weight: bold !important;
+}
 
+.btn-logout:hover {
+  background-color: #ffebee !important;
+}
+
+
+/* --- 3. Hero Section --- */
 .hero {
-  position: sticky;
-  top: 50px;   /* ความสูง navbar ประมาณ 80px */
-  z-index: 900;
-
-  height: 260px;
-  margin: 0;          /* เอาช่องว่างออก */
-  border-radius: 0;   /* ถ้าต้องการให้ติดขอบเต็ม */
+  position: relative;
+  height: 300px;
+  margin: 20px;
   border-radius: 20px;
   overflow: hidden;
   box-shadow: var(--shadow);
@@ -107,7 +116,10 @@ ul {
 
 .hero-bg {
   position: absolute;
-  inset: 0;
+  top: 0; 
+  left: 0; 
+  width: 100%; 
+  height: 100%;
   z-index: 1;
 }
 
@@ -122,6 +134,7 @@ ul {
   font-size: 2.5rem;
   font-weight: 700;
   margin-bottom: 10px;
+  text-shadow: 0 2px 4px rgba(0,0,0,0.3);
 }
 
 .hero-subtitle {
@@ -129,27 +142,22 @@ ul {
   opacity: 0.9;
 }
 
-/* ===============================
-   Dashboard Layout
-================================= */
-
+/* --- 4. Dashboard Grid (Menu Section) --- */
 .dashboard-container {
   max-width: 1200px;
-  margin: 40px auto 60px;
+  margin: -50px auto 60px; /* ดึงขึ้นไปซ้อนบน Hero */
   padding: 0 20px;
   position: relative;
   z-index: 3;
 }
 
-/* 🔥 ปรับให้เรียงแนวยาว */
 .grid-menu {
   display: grid;
-  grid-template-columns: 1fr;  /* 1 คอลัมน์ */
+  /* กำหนดให้มี 3 คอลัมน์เท่าๆ กัน */
+  grid-template-columns: repeat(3, 1fr); 
   gap: 30px;
-  justify-items: center;       /* จัดกลาง */
 }
 
-/* การ์ดขนาดเดิม */
 .menu-card {
   background: var(--white);
   border-radius: 20px;
@@ -158,9 +166,11 @@ ul {
   box-shadow: var(--card-shadow);
   transition: all 0.3s ease;
   border: 1px solid rgba(0,0,0,0.05);
-
-  width: 100%;
-  max-width: 350px;   /* คงขนาดเดิม */
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 15px;
 }
 
 .menu-card:hover {
@@ -169,7 +179,6 @@ ul {
   border-color: var(--primary);
 }
 
-/* ไอคอน */
 .icon-box {
   width: 80px;
   height: 80px;
@@ -180,7 +189,7 @@ ul {
   justify-content: center;
   font-size: 2.5rem;
   color: var(--primary);
-  margin: 0 auto 15px;
+  margin-bottom: 10px;
   transition: 0.3s;
 }
 
@@ -190,7 +199,6 @@ ul {
   transform: scale(1.1);
 }
 
-/* ข้อความ */
 .card-title {
   font-size: 1.4rem;
   font-weight: 700;
@@ -203,24 +211,32 @@ ul {
   line-height: 1.5;
 }
 
-/* ===============================
-   Responsive
-================================= */
 
+/* --- 5. Responsive Design --- */
+
+/* หน้าจอขนาดกลาง (Tablets) */
+@media (max-width: 1024px) {
+  .grid-menu {
+    grid-template-columns: repeat(2, 1fr); /* ปรับเหลือ 2 คอลัมน์ */
+    gap: 20px;
+  }
+}
+
+/* หน้าจอขนาดเล็ก (Mobiles) */
 @media (max-width: 768px) {
   .hero { 
     height: 250px; 
     margin: 15px; 
   }
-
   .hero-title { 
     font-size: 1.8rem; 
   }
-
   .dashboard-container { 
     margin-top: -30px; 
   }
-
+  .grid-menu { 
+    grid-template-columns: 1fr; /* ปรับเป็นแถวละ 1 อัน */
+  }
   .menu-card {
     padding: 30px 20px;
   }
