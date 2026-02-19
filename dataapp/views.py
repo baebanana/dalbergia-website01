@@ -459,7 +459,7 @@ def Expredictplant(request):
         })
 
 
-CLASS_NAMES = ['กระพี้นางนวล', 'พะยูง', 'เกร็ดแดง', 'เครือคางควาย', 'เครือแมด']
+CLASS_NAMES = ['กระพี้นางนวล', 'พะยูง', 'เก็ดแดง', 'เครือคางควาย', 'เครือแมด']
 def predictplant(request):
     result = None
     confidence = None
