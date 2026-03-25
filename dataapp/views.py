@@ -492,7 +492,7 @@ def predictplant(request):
 
             # 🚨 ระบบดักจับ Threshold 50% (ป้องกันรูปแอปเปิ้ล/กุ้ง)
             if max_confidence < 0.8:
-                result = "ไม่สามารถระบุได้ (ภาพอาจไม่ใช่ใบไม้ หรือไม่ชัดเจน)"
+                result = "ไม่สามารถระบุได้ (ภาพอาจไม่ใช่ใบไม้หรือไม่ชัดเจน)"
                 confidence = f"{max_confidence * 100:.2f}% (ความมั่นใจต่ำเกินไป)"
             else:
                 if result_index < len(CLASS_NAMES):
