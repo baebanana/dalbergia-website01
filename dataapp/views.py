@@ -459,12 +459,11 @@ def Expredictplant(request):
         })
 
 
-CLASS_NAMES = ['กระพี้นางนวล', 'พะยูง', 'เก็ดแดง', 'เครือคางควาย', 'เครือแมด']
-
+CLASS_NAMES = ['กระพี้นางนวล', 'พะยูง', 'เกร็ดแดง', 'เครือคางควาย', 'เครือแมด', 'ไม่ทราบชนิดหรือไม่ใช่รูปใบไม้']
 def predictplant(request):
     result = None
     confidence = None
-    image_url = None 
+    image_url = None # ⭐ เพิ่ม
     if request.method == 'POST' and request.FILES.get('plant_image'):
         try:
             img_file = request.FILES['plant_image']
@@ -472,43 +471,35 @@ def predictplant(request):
             # ✅ 1. บันทึกรูป
             fs = FileSystemStorage()
             filename = fs.save(img_file.name, img_file)
-            image_url = fs.url(filename) # URL สำหรับแสดงผล
+            image_url = fs.url(filename) # ⭐ URL สำหรับแสดงผล
+
 
             # ✅ 2. โหลดรูปจากไฟล์ที่ save แล้ว
             img = PILImage.open(fs.path(filename)).convert("RGB")
             img = img.resize((224, 224))
 
-            # ✅ 3. เตรียมรูปภาพ
+
             img_array = image.img_to_array(img)
             img_array = np.expand_dims(img_array, axis=0)
-            
-            # 🚨 จุดสำคัญที่แก้: เอา preprocess_input ออก แล้วหาร 255.0 แทน
-            img_array = img_array / 255.0
+            img_array = preprocess_input(img_array)
 
-            # ✅ 4. ทำนายผล
+
             predictions = model.predict(img_array)
-            result_index = int(np.argmax(predictions[0]))
-            max_confidence = np.max(predictions[0]) # ดึงค่าความมั่นใจสูงสุด
+            result_index = np.argmax(predictions[0])
 
-            # 🚨 ระบบดักจับ Threshold 50% (ป้องกันรูปแอปเปิ้ล/กุ้ง)
-            if max_confidence < 0.8:
-                result = "ไม่สามารถระบุได้ (ภาพอาจไม่ใช่ใบไม้หรือไม่ชัดเจน)"
-                confidence = f"{max_confidence * 100:.2f}% (ความมั่นใจต่ำเกินไป)"
+
+            if result_index < len(CLASS_NAMES):
+                result = CLASS_NAMES[result_index]
+                confidence = f"{np.max(predictions[0]) * 100:.2f}%"
             else:
-                if result_index < len(CLASS_NAMES):
-                    result = CLASS_NAMES[result_index]
-                    confidence = f"{max_confidence * 100:.2f}%"
-                else:
-                    result = "ไม่ทราบชนิด"
-                    
+                result = "ไม่ทราบชนิด"
         except Exception as e:
             print(e)
             result = "เกิดข้อผิดพลาดในการประมวลผลรูปภาพ"
-            
     return render(request, 'dataapp/classify_page.html', {
             'result': result,
             'confidence': confidence,
-            'image_url': image_url, # ส่งไป template
+            'image_url': image_url, # ⭐ ส่งไป template
         })
     
 def testaddmodel(request):
